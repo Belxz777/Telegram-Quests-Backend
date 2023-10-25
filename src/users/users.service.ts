@@ -22,10 +22,11 @@ return user
         const users   = await this.userRepository.findAll()
 return users
     }
-    /*
+    
     async deletePrizoner(id:number){
 console.log('delete req')
-const deleteUser  = await this.userRepository.delete(id)
+const deleteUser  = await this.userRepository.destroy({where:{id}})
+return deleteUser
     }
-    */
+    
 }

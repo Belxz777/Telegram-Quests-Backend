@@ -4,6 +4,7 @@ import {Table,Column, DataType,Model} from 'sequelize-typescript'
 @Table({tableName:'new-user'})
 //модель нашей базы данных для взамиомдействия с ней
 export class User extends Model<User> {
+   
 // мы это делаем для визуализвации эндпоинта что бы видеть что приходит на этот реквест
     @ApiProperty({example:1,description:'код зека'})
     @Column({type:DataType.INTEGER,unique:true,autoIncrement:true,primaryKey:true,allowNull:false})

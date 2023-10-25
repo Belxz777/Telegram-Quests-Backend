@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user-dto';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './users.model';
+import { Param } from '@nestjs/common';
 @ApiTags('пользователи, но на самом деле  зеки')
 @Controller('users')
 export class UsersController {
@@ -22,9 +23,12 @@ return this.UsersService.createNewUser(userDto)
 getAllUsers(){
     return this.UsersService.getAllPrizoners()
 }
-/*
+
 @Delete(':id')
-DeleteUser(){
-    return this.UsersService.deletePrizoner()
-}*/
+//ошибка\
+   deleteUser(@Param('id') id: number): {
+
+    const req = this.UsersService.deletePrizoner(id);
+    return req
+  }
 }
