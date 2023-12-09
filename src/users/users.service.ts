@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './users.model';
 import sequelize from 'sequelize';
-import { CreateUserDto } from './dto/create-user-dto';
+import { CreateUserDto, UpdateUserDto } from './dto/create-user-dto';
 import { DeleteUser } from './dto/delete-user-dto';
 @Injectable()
 export class UsersService {
@@ -23,10 +23,18 @@ return user
 return users
     }
     
-    async deletePrizoner(id:number){
+    async deletePrizoner(code:number):Promise<void | number>{
 console.log('delete req')
-const deleteUser  = await this.userRepository.destroy({where:{id}})
+const deleteUser  = await this.userRepository.destroy({where:{code}})
 return deleteUser
+    }
+    async updateUser (dto:UpdateUserDto,code:number){
+        console.log("update request",code)
+        const user = await this.userRepository.findByPk(code);
+        if (!user) {
+          throw new Error('User not found');
+        }
+        return user.update(dto);
     }
     
 }
