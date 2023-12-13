@@ -23,6 +23,10 @@ return this.QuestService.createNewQuest(QuestDto)
 getAllQuests(){
     return this.QuestService.getAllQuests()
 }
+@Get(':ip')
+getAllQuestsbyIP(@Param('ip') ip:number){
+    return this.QuestService.getAllQuestsbyIP(ip)
+}
 
 @Delete(':id')
 //ошибка\

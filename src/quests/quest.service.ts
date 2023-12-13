@@ -36,5 +36,14 @@ return deleteUser
         }
         return user.update(dto);
     }
-    
+    async  getAllQuestsbyIP(ip:number){
+        //для того что бы вывести всех поьзователей
+            const users   = await this.questRepository.findAll({
+                where:{
+                    location:ip
+                }
+            })
+    return users
+        }
+        
 }

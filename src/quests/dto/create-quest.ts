@@ -22,9 +22,6 @@ location:string
 hardness:string
 }
 export class UpdateQuestDto {
-    @ApiProperty({example:1,description:'айди вопроса'})
-    @Column({type:DataType.INTEGER,unique:true,autoIncrement:true,primaryKey:true,allowNull:false})
-    id:number
     @ApiProperty({example:'Кто является главным героем фильма Уран',description:'вопрос'})
     @Column({type:DataType.STRING,allowNull:false})
     question:string
