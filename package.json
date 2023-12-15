@@ -2,6 +2,7 @@
   "name": "mew",
   "version": "0.0.1",
   "description": "",
+  "proxy": "https://4qf73x8p-4000.euw.devtunnels.ms/",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

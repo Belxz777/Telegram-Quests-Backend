@@ -36,11 +36,12 @@ return deleteUser
         }
         return user.update(dto);
     }
-    async  getAllQuestsbyIP(ip:number){
+    async  getAllQuestsbyIP(lat:number,lon:number){
         //для того что бы вывести всех поьзователей
             const users   = await this.questRepository.findAll({
                 where:{
-                    location:ip
+                    lat: lat,
+                    lon:lon
                 }
             })
     return users

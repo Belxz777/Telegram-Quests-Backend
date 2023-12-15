@@ -27,4 +27,11 @@ location:string
 @ApiProperty({example:'easy',description:'сложность'})
 @Column({type:DataType.STRING,defaultValue:false})
 hardness:string
+@ApiProperty({example:'55.00323',description:'координаты широта'})
+@Column({type:DataType.STRING,defaultValue:false})
+lat:number
+@ApiProperty({example:'52.332332',description:'координаты долгота'})
+@Column({type:DataType.STRING,defaultValue:false})
+lon:number
+
 }

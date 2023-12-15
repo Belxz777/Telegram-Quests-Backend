@@ -23,9 +23,9 @@ return this.QuestService.createNewQuest(QuestDto)
 getAllQuests(){
     return this.QuestService.getAllQuests()
 }
-@Get(':ip')
-getAllQuestsbyIP(@Param('ip') ip:number){
-    return this.QuestService.getAllQuestsbyIP(ip)
+@Get(':lat/:lon')
+getAllQuestsbyIP(@Param('lat') lat: number, @Param('lon') lon:number){
+    return this.QuestService.getAllQuestsbyIP(lat,lon)
 }
 
 @Delete(':id')
