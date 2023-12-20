@@ -46,5 +46,13 @@ return deleteUser
             })
     return users
         }
-        
+            async  getAllQuestsbyQuizIn(quizIn:string){
+                //для того что бы вывести всех поьзователей
+                    const users   = await this.questRepository.findAll({
+                        where:{
+                       quizIn:quizIn
+                        }
+                    })
+            return users
+                }
 }

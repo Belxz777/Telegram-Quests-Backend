@@ -27,7 +27,10 @@ getAllQuests(){
 getAllQuestsbyIP(@Param('lat') lat: number, @Param('lon') lon:number){
     return this.QuestService.getAllQuestsbyIP(lat,lon)
 }
-
+@Get(':quizName')
+getAllQuestsbyQuizIn(@Param('quizName') quizName:string){
+    return this.QuestService.getAllQuestsbyQuizIn(quizName)
+}
 @Delete(':id')
 //ошибка\
    deleteQuest(@Param('id') id: number):Promise<void | number> {

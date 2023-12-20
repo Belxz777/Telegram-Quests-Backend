@@ -21,9 +21,6 @@ answer:string
 @ApiProperty({example:['Клоун','Бизнессмен','Heудачник'],description:'Массив вариантов'})
 @Column({type:DataType.ARRAY(DataType.STRING),defaultValue:['','']})
 variants:string[]
-@ApiProperty({example:'101.10.293.21',description:'Местоположение'})
-@Column({type: DataType.STRING,defaultValue:false})
-location:string
 @ApiProperty({example:'easy',description:'сложность'})
 @Column({type:DataType.STRING,defaultValue:false})
 hardness:string
@@ -33,5 +30,14 @@ lat:number
 @ApiProperty({example:'52.332332',description:'координаты долгота'})
 @Column({type:DataType.STRING,defaultValue:false})
 lon:number
+@ApiProperty({example:'Roman',description:'автор теста'})
+@Column({type:DataType.STRING,defaultValue:false})
+author:string
+@ApiProperty({example:'Смешарики',description:'все тесты в одном квизе'})
+@Column({type:DataType.STRING,defaultValue:false})
+quizIn:string
+@ApiProperty({example:'История',description:'Категория теста'})
+@Column({type:DataType.STRING,defaultValue:false})
+categorie:string
 
 }
