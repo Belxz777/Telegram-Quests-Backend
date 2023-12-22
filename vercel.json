@@ -1,6 +1,15 @@
 {
     "version":2,
     "name":"backendkvest",
+    "env":{
+        "POSTGRES_PORT": 5433,
+        "PORT ":4000,
+       " POSTGRES_HOST" : "localhost",
+        "POSTGRES_USER":"postgres",
+        "POSTGRES_DB"  :"postgres",
+        "POSTGRES_PASSWORD":123
+        
+    },
     "builds":[
         {
             "src":"src/main.ts",
