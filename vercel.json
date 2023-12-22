@@ -3,7 +3,6 @@
     "name":"backendkvest",
     "env":{
         "POSTGRES_PORT": 5433,
-        "PORT ":4000,
        " POSTGRES_HOST" : "localhost",
         "POSTGRES_USER":"postgres",
         "POSTGRES_DB"  :"postgres",
