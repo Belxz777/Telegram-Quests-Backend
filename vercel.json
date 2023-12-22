@@ -4,7 +4,7 @@
   "buildCommand": "nest build",
     "env":{
         "POSTGRES_PORT": "5433",
-       " POSTGRES_HOST" : "localhost",
+       " POSTGRES_HOST" :"localhost",
         "POSTGRES_USER":"postgres",
         "POSTGRES_DB"  :"postgres",
         "POSTGRES_PASSWORD":"123"
