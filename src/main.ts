@@ -21,5 +21,24 @@ await app.listen(port);
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
+  /*
+  
+   {
+        "question": "Формат для хранения картинок без фона?",
+        "answer": "ПНГ",
+        "variants": [
+            "ПНГ",
+            "JPEG",
+            "JPG",
+            "SVG"[]'
+        ],
+        "hardness": "medium",
+       "lat": "56.833516",
+        "lon": " 53.128926",
+        "author":"Artem",
+        "quizIn": "NearHome",
+        "categorie":"Айти"
+    }
+  */
 }
 bootstrap();
