@@ -1,6 +1,5 @@
 {
     "version":2,
-    "name":"backendkvest",
   "buildCommand": "nest build",
     "builds":[
         {
