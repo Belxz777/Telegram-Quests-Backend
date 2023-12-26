@@ -1,23 +1,23 @@
 {
-    "version":2,
-  "buildCommand": "nest build",
-    "builds":[
-        {
-            "src":"src/main.ts",
-            "use": "@vercel/node"
-        }
+    "version": 2,
+    "name": "backend-kvest",
+    "builds": [
+      {
+        "src": "dist/main.js",
+        "use": "@vercel/node"
+      }
     ],
+    "env": {
+      "POSTGRES_PORT": "5433",
+      "POSTGRES_HOST": "localhost",
+      "POSTGRES_USER": "postgres",
+      "POSTGRES_DB": "postgres",
+      "POSTGRES_PASSWORD": "123"
+    },
     "routes": [
-        {
-        "src":"/(.*)",
-        "dest": "src/main.ts",
-        "methods": [
-        "GET",
-        "POST",
-        "PUT",
-        "DELETE" ,
-        "PATCH"
-        ]
-    }
-]
-}
+      {
+          "src": "/(.*)",
+          "dest": "dist/main.js"
+      }
+  ]
+  }
