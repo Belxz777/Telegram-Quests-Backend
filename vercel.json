@@ -1,6 +1,5 @@
 {
     "version": 2,
-    "name": "backend-kvest",
     "builds": [
       {
         "src": "dist/main.js",

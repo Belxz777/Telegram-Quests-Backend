@@ -7,7 +7,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": " tsc && nest build",
+    "vercel-build": "tsc && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "    nest start",
     "start:dev": "start --watch",
