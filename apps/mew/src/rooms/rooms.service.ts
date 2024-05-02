@@ -10,19 +10,27 @@ export class RoomService {
 
     }
     async createNewRoom (dto:CreateRoom){
-    const quest  = await this.roomsRepo.create(dto)
+    const room  = await this.roomsRepo.create(dto)
     console.log("Создана комната")
-    return quest
+    return room
         }
-        
+        async addMemberToRoom(member: string, id: number) {
+       const room = await this.roomsRepo.findByPk(id);
+       if(!room) {
+        throw new Error("Room not found");
+        }
+        room.members.push(member);
+        return room;
+    }
         async deleteRoom(id:number):Promise<void | number>{
     const deleteRoom = await this.roomsRepo.destroy({where:{id}})
     return deleteRoom
         }
-        async updateQuest (dto:UpdateRoom,id:number){
+// TODO добавить комнаты и также крч ты понял 
+        async updateroom (dto:UpdateRoom,id:number){
             const room = await this.roomsRepo.findByPk(id);
             if (!room) {
-              throw new Error('Quest not found');
+              throw new Error('room not found');
             }
             return room.update(dto);
         }
@@ -36,14 +44,19 @@ export class RoomService {
         return room
             }
 
-                async  getAllQuestsbyQuizIn(quizIn:string){
+                async  getAllroomsbyQuizIn(quizIn:string){
                     //для того что бы вывести всех поьзователей
                         const users   = await this.roomsRepo
                 .findAll({ })
                 return users
                     }
-                    async addNewQuest(quizId:"") {
+                    async addNewroom(roomId:number,quizName:string) {
                         return
                     }
+                    async addNewQuest(quizId:"") {
+return
+                    }
+
+                    
 }
 export class RoomsService {}

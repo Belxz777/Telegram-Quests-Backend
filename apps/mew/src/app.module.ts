@@ -9,10 +9,11 @@ import { Quest } from './quests/quests.model';
 import { RoomsController } from './rooms/rooms.controller';
 import { RoomsService } from './rooms/rooms.service';
 import { RoomsModule } from './rooms/rooms.module';
+import { Room } from './rooms/rooms.model';
 //сборка в модуль контроллеров(реквесты ) и провайдеров(бизнес логики)
 @Module({
-controllers: [RoomsController],
-providers: [RoomsService],
+controllers: [],
+providers: [],
 imports: [
 ConfigModule.forRoot(
 {
@@ -26,8 +27,8 @@ port: parseInt(process.env.POSTGRES_PORT),
 username: process.env.POSTGRES_USER,
 password: '123',
 database: process.env.POSTGRES_DB,
-models: [Quest],
-autoLoadModels: true
+models: [Quest,Room],
+autoLoadModels:true,
 }),
 QuestModule,
 RoomsModule

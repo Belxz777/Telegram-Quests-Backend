@@ -14,6 +14,12 @@ export class QuestsController {
     @ApiResponse({status:200,type:[Quest]})
 @Post()
     create(@Body() QuestDto:CreateQuestDto){
+        const isRebus= QuestDto.rebus
+        if(isRebus){
+            console.log("like rebus",QuestDto.rebus)
+
+            return this.QuestService.createNewQuest(QuestDto)
+        }
 return this.QuestService.createNewQuest(QuestDto)
     }
 // наше описание этой апишки конкретной

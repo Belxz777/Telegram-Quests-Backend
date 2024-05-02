@@ -12,11 +12,11 @@ export class QuestService {
     }
      //принимает dto
 
-    async createNewQuest (dto:CreateQuestDto){
-    console.log("post request")
-const quest  = await this.questRepository.create(dto)
+async createNewQuest(dto: CreateQuestDto ) {
+console.log("post request")
+const quest = await this.questRepository.create(dto)
 return quest
-    }
+}
     async  getAllQuests(){
     //для того что бы вывести всех поьзователей
         const users   = await this.questRepository.findAll()
@@ -53,6 +53,7 @@ return deleteUser
                        quizIn:quizIn
                         }
                     })
+
             return users
                 }
 }

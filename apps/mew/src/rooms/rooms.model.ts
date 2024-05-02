@@ -16,10 +16,10 @@ export class Room extends Model<Room> {
     @Column({type:DataType.STRING,allowNull:false})
     name:string
     @ApiProperty({example:'Чебупели , Обезьяны',description:'участнки то есть названия команд'})
-    @Column({type:DataType.ARRAY(DataType.STRING),defaultValue:["",""]})
+    @Column({type:DataType.ARRAY(DataType.STRING),defaultValue:["",""],allowNull:true})
 members:string[]
 @ApiProperty({example:10,description:'максимальное количество участников'})
-@Column({type:DataType.NUMBER,defaultValue:['','']})
+@Column({type:DataType.INTEGER,defaultValue:10})
 maxnumberOfMembers:number
 @ApiProperty({example:"квизы внутри ",description:""})
 @Column({type:DataType.ARRAY(DataType.STRING),defaultValue:["",""]})
