@@ -13,7 +13,6 @@ export class QuestService {
      //принимает dto
 
 async createNewQuest(dto: CreateQuestDto ) {
-console.log("post request")
 const quest = await this.questRepository.create(dto)
 return quest
 }
@@ -44,6 +43,8 @@ return deleteUser
                     lon:lon
                 }
             })
+            
+            users.push()
     return users
         }
             async  getAllQuestsbyQuizIn(quizIn:string){
@@ -56,4 +57,20 @@ return deleteUser
 
             return users
                 }
+                async  getAllQuestsbyQuizId(quizId:number){
+                    //для того что бы вывести всех поьзователей
+                        const users   = await this.questRepository.findAll({
+                            where:{
+                           quizId:quizId
+                            }
+                        })
+                        const lats = {
+                            lat:users[0].lat,
+                            lon:users[0].lon,
+                            quizId:users[0].quizId,
+                            quizIn:users[0].quizIn
+                        }
+        return lats
+
+                    }
 }

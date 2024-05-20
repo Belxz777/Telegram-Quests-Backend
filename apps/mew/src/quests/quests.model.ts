@@ -36,6 +36,9 @@ author:string
 @ApiProperty({example:'Смешарики',description:'все тесты в одном квизе'})
 @Column({type:DataType.STRING,defaultValue:false,allowNull:false})
 quizIn:string
+@ApiProperty({example:1,description:'айди квиза'})
+@Column({type:DataType.NUMBER,defaultValue:false,allowNull:false})
+quizId:string
 @ApiProperty({example:'История',description:'Категория теста'})
 @Column({type:DataType.STRING,defaultValue:false,allowNull:false})
 categorie:string
@@ -43,5 +46,6 @@ categorie:string
 image:string
 @Column({type:DataType.BOOLEAN,allowNull:true})
 rebus:boolean
-
+@Column({type:DataType.BOOLEAN,defaultValue:false})
+todo:boolean
 }

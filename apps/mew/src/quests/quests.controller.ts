@@ -14,10 +14,10 @@ export class QuestsController {
     @ApiResponse({status:200,type:[Quest]})
 @Post()
     create(@Body() QuestDto:CreateQuestDto){
+        const isTodo= QuestDto.todo
         const isRebus= QuestDto.rebus
+        
         if(isRebus){
-            console.log("like rebus",QuestDto.rebus)
-
             return this.QuestService.createNewQuest(QuestDto)
         }
 return this.QuestService.createNewQuest(QuestDto)
@@ -29,13 +29,18 @@ return this.QuestService.createNewQuest(QuestDto)
 getAllQuests(){
     return this.QuestService.getAllQuests()
 }
-@Get(':lat/:lon')
+@Get('byCoordinates/:lat/:lon')
 getAllQuestsbyIP(@Param('lat') lat: number, @Param('lon') lon:number){
     return this.QuestService.getAllQuestsbyIP(lat,lon)
 }
-@Get(':quizName')
+@Get('byName/:quizName')
 getAllQuestsbyQuizIn(@Param('quizName') quizName:string){
     return this.QuestService.getAllQuestsbyQuizIn(quizName)
+}
+
+@Get('byId/:quizId')
+getAllQuestsbyQuizId(@Param('quizId') quizId:number){
+    return this.QuestService.getAllQuestsbyQuizId(quizId)
 }
 @Delete(':id')
 //ошибка\

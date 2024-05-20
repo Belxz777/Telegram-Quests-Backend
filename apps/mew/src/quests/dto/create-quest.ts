@@ -26,6 +26,9 @@ author:string
 @ApiProperty({example:'Смешарики',description:'все тесты в одном квизе'})
 @Column({type:DataType.STRING,defaultValue:false})
 quizIn:string
+@ApiProperty({example:1,description:'айди квиза'})
+@Column({type:DataType.NUMBER,defaultValue:false,allowNull:false})
+quizId:string
 @ApiProperty({example:'История',description:'Категория теста'})
 @Column({type:DataType.STRING,defaultValue:false})
 categorie:string
@@ -33,6 +36,8 @@ categorie:string
 image:string
 @Column({type:DataType.BOOLEAN,defaultValue:false})
 rebus:boolean
+@Column({type:DataType.BOOLEAN,defaultValue:false})
+todo:boolean
 }
 export class UpdateQuestDto {
     @ApiProperty({example:'Кто является главным героем фильма Уран',description:'вопрос'})
