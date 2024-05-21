@@ -21,13 +21,13 @@ export class TeamController {
   //   ): Promise<void> {
   //     return this.TeamService.uploadImages(id, file);
   //   }
-    @Post('/uploadPhotoUrls/:id')
+    @Post('/uploadPhotoUrls/:name')
     async uploadImageUrls(
-        @Param('id') id: number,
+        @Param('name') name: string,
         @Body('url') file: string,
         @Body('location') nameOfLocation: string
       ): Promise<Team> {
-      return this.TeamService.uploadImageUrls(id, file,nameOfLocation);
+      return this.TeamService.uploadImageUrls(name, file,nameOfLocation);
       }
     @Delete(':id')
     async deleteTeam(@Param('id') id: number): Promise<void> {

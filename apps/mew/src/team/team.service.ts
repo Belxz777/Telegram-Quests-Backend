@@ -7,16 +7,15 @@ export class TeamService {
     constructor(
         @InjectModel(Team) private readonly teamModel: typeof Team,
     ) {}
-    async uploadImageUrls(id: number, file: string,nameOfLocation:string): Promise<Team> {
-      const team = await this.teamModel.findByPk(id);
-
+    async uploadImageUrls(name: string, file: string,nameOfLocation:string): Promise<Team> {
+      const team = await this.teamModel.findOne({where: { name: name}});
+console.log(file,nameOfLocation,name);
       if (!team) {
-          throw new Error(`Team with id ${id} not found.`);
+          throw new Error(`Team with id ${name} not found.`);
       }
    if(!file){
 throw new Error(``)
    }
-   console.log(file)
    if (!team.imageDataUrl || !team.solved) {
           team.imageDataUrl = []; 
           team.solved = []
@@ -24,9 +23,10 @@ throw new Error(``)
       }
       team.imageDataUrl.push(file);
       team.solved.push(nameOfLocation)
+      console.log(team)
       // team.imageDataUrl.join(file)
        team.save();  
-       this.teamModel.update({imageDataUrl:team.imageDataUrl,solved:team.solved},{where:{id}})
+       this.teamModel.update({imageDataUrl:team.imageDataUrl,solved:team.solved},{where:{name}})
       return team;
   }
   

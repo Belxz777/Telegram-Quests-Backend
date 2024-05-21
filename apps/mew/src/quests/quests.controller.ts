@@ -33,6 +33,10 @@ getAllQuests(){
 getAllQuestsbyIP(@Param('lat') lat: number, @Param('lon') lon:number){
     return this.QuestService.getAllQuestsbyIP(lat,lon)
 }
+@Get('questsForTeam/:team')
+    getAllQuestsbyTeam(@Param('team') team: string): Promise<any> {
+        return this.QuestService.getAllTeamQuests(team)
+    }
 @Get('byName/:quizName')
 getAllQuestsbyQuizIn(@Param('quizName') quizName:string){
     return this.QuestService.getAllQuestsbyQuizIn(quizName)
@@ -40,6 +44,7 @@ getAllQuestsbyQuizIn(@Param('quizName') quizName:string){
 
 @Get('byId/:quizId')
 getAllQuestsbyQuizId(@Param('quizId') quizId:number){
+    console.log(quizId)
     return this.QuestService.getAllQuestsbyQuizId(quizId)
 }
 @Delete(':id')

@@ -13,9 +13,9 @@ export class Team extends Model<Team> {
     id:number
     @ApiProperty({example:'Супер',description:'название комнаты'})
     @Column({type:DataType.STRING,allowNull:false})
-    name:string
-@Column({type:DataType.ARRAY(DataType.STRING),defaultValue:["",""],allowNull:true})
+    name:string 
+@Column({type:DataType.ARRAY(DataType.STRING),defaultValue:[],allowNull:true})
 solved:string[]
-@Column({ type: DataType.ARRAY(DataType.STRING),defaultValue:["",""], allowNull: true })
+@Column({ type: DataType.ARRAY(DataType.STRING),defaultValue:[], allowNull: true })
 imageDataUrl: string[];
 }

@@ -4,12 +4,13 @@ import { Sequelize } from 'sequelize';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Quest } from './quests.model';
 import { QuestsController } from './quests.controller';
+import { Team } from '../team/team.model';
 
 @Module({
   controllers: [QuestsController],
   providers: [QuestService],
   imports : [
-    SequelizeModule.forFeature([Quest])
+    SequelizeModule.forFeature([Quest,Team])
   ]
 })
 export class QuestModule {}
