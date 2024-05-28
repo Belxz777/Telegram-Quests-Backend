@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { STRING } from 'sequelize'
+import { DATE } from 'sequelize'
 import { ARRAY } from 'sequelize'
 import { TEXT,DataTypes} from 'sequelize'
 import {Table,Column, DataType,Model,Sequelize} from 'sequelize-typescript'
@@ -16,6 +17,8 @@ export class Team extends Model<Team> {
     name:string 
 @Column({type:DataType.ARRAY(DataType.STRING),defaultValue:[],allowNull:true})
 solved:string[]
+@Column({type:DataType.ARRAY(DataType.STRING ),defaultValue:[],allowNull:true})
+results:string[]
 @Column({ type: DataType.ARRAY(DataType.STRING),defaultValue:[], allowNull: true })
 imageDataUrl: string[];
 }
