@@ -1,6 +1,6 @@
 
 import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { Team } from './team.model';
+import { Team } from './team.entity';
 import { TeamService } from './team.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import EasyYandexS3 from 'easy-yandex-s3';

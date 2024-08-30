@@ -1,128 +1,117 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { Quest } from './quests.model';
-import sequelize from 'sequelize';
-import { deleteQuest } from './dto/delete-quest';
-import { CreateQuestDto,UpdateQuestDto } from './dto/create-quest';
-import { Team } from '../team/team.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { In, Not, Repository } from 'typeorm';
+import { Quest } from './quests.entity';
+import { Team } from '../team/team.entity';
+import { CreateQuestDto, UpdateQuestDto } from './dto/create-quest';
+
 interface QuestsProposed {
-    lat:number,
-    lon:number,
-    name:string,
-    id:number
+    lat: number;
+    lon: number;
+    name: string;
+    id: number;
 }
+
 @Injectable()
 export class QuestService {
-    //  модель параметрами передаем саму модель
-    constructor(@InjectModel(Quest ) private questRepository : typeof Quest,@InjectModel(Team) private teamRepository : typeof Team){
+    constructor(
+        @InjectRepository(Quest)
+        private questRepository: Repository<Quest>,
+        @InjectRepository(Team)
+        private teamRepository: Repository<Team>
+    ) {}
 
+    async createNewQuest(dto: CreateQuestDto): Promise<Quest> {
+        const quest: Quest = this.questRepository.create(dto);
+        return this.questRepository.save(quest);
     }
-     //принимает dto
 
-async createNewQuest(dto: CreateQuestDto ) {
-const quest = await this.questRepository.create(dto)
-return quest
-}
-    async  getAllQuests(){
-    //для того что бы вывести всех поьзователей
-        const users   = await this.questRepository.findAll()
-return users
+    async getAllQuests(): Promise<Quest[] | Quest> {
+        return this.questRepository.find();
     }
-    
-    async deleteQuest(id:number):Promise<void | number>{
-console.log('delete req')
-const deleteUser  = await this.questRepository.destroy({where:{id}})
-return deleteUser
+
+    async deleteQuest(id: number): Promise<void> {
+        await this.questRepository.delete(id);
     }
-    async updateQuest (dto:UpdateQuestDto,id:number){
-        console.log("update request",id)
-        const user = await this.questRepository.findByPk(id);
-        if (!user) {
-          throw new Error('Quest not found');
-        }
-        return user.update(dto);
-    }
-    async  getAllQuestsbyIP(lat:number,lon:number){
-        //для того что бы вывести всех поьзователей
-            const users   = await this.questRepository.findAll({
-                where:{
-                    lat: lat,
-                    lon:lon
-                }
-            })
-            
-            users.push()
-    return users
-        }
-    async getAllTeamQuests(team: string) {
-        const thisTeam = await this.teamRepository.findOne({
-            where: {
-                name: team
-            }
-        })
-        function getUniqueValues(final: string[], alreadySolved: string[]): string[] {
-            return final.filter(value => !alreadySolved.includes(value));
+
+
+
+
+
+
+    async updateQuest(dto: UpdateQuestDto, id: number): Promise<Quest> {
+        const quest = await this.questRepository.findOne({ where: { id } });
+        if (!quest) {
+            throw new Error('Quest not found');
         }
 
-        let alreadySolved = thisTeam.solved
-        let final = [];
-
-        const quests = await this.questRepository.findAll();
-        quests.forEach((item) => {
-            if (final.includes(item.quizIn)) {
-                return;
-            }
-            final.push(item.quizIn)
-        })
-        let uniqueValues = getUniqueValues(final, alreadySolved);
-        console.log(uniqueValues)
-        const questsToReturn = await this.questRepository.findAll(
-            {
-                where: {
-                  quizIn:uniqueValues
-                }
-            }
-        )
-        const locations:QuestsProposed[] = []
-        questsToReturn.map((item,index)=>{
-            if (locations.some(location => location.name === item.quizIn)) {
-                return;
-            }
-    
-
-locations.push({
-    lat: item.lat,
-    lon: item.lon,
-    name:item.quizIn,
-    id:Number(item.quizId)
-})
-        })
-        return locations
+        Object.assign(quest, dto);
+        return this.questRepository.save(quest);
     }
-            async  getAllQuestsbyQuizIn(quizIn:string){
-                //для того что бы вывести всех поьзователей
-                    const users   = await this.questRepository.findAll({
-                        where:{
-                       quizIn:quizIn
-                        }
-                    })
 
-            return users
-                }
-                async  getAllQuestsbyQuizId(quizId:number){
-                    //для того что бы вывести всех поьзователей
-                        const users   = await this.questRepository.findAll({
-                            where:{
-                           quizId:quizId
-                            }
-                        })
-                        const lats = {
-                            lat:users[0].lat,
-                            lon:users[0].lon,
-                            quizId:users[0].quizId,
-                            quizIn:users[0].quizIn
-                        }
-        return lats
 
-                    }
-}
+
+
+
+
+
+
+
+
+
+
+    async getAllQuestsbyIP(lat:  number, lon: number): Promise<Quest[]> {
+        
+        const quest = await this.questRepository.find({ where: { lat, lon } });
+        return quest
+    }
+
+    async getAllTeamQuests(team: string): Promise<QuestsProposed[]> {
+        const thisTeam = await this.teamRepository.findOne({ where: { name: team } });
+        if (!thisTeam) {
+            throw new Error('Team not found');
+        }
+
+        const quests = await this.questRepository.find();
+        const final = [...new Set(quests.map(quest => quest.quizIn))];
+        const uniqueValues = final.filter(value => !thisTeam.solved.includes(value));
+
+        const questsToReturn = await this.questRepository.find({
+            where: { quizIn: In(uniqueValues) },
+        });
+
+        const locations: QuestsProposed[] = [];
+        questsToReturn.forEach(item => {
+            if (!locations.some(location => location.name === item.quizIn)) {
+                locations.push({
+                    lat: Number(item.lat),
+                    lon: Number(item.lon),
+                    name: item.quizIn,
+                    id: Number(item.quizId)
+                });
+            }
+        });
+        return locations;
+    }    
+    async getAllQuestsbyQuizIn(quizIn: string): Promise<Quest[]> {
+        return this.questRepository.find({ where: { quizIn } });
+    }
+
+
+    async getAllQuestsbyQuizId(quizId: number): Promise<{
+        lat: number;
+        lon: number;
+        quizId: number;
+        quizIn: string;
+    }> {
+        const quest = await this.questRepository.findOne({ where: { quizId } });
+        if (!quest) {
+            throw new Error('Quest not found');
+        }
+        return {
+            lat: Number(quest.lat),
+            lon: Number(quest.lon),
+            quizId: quest.quizId,
+            quizIn: quest.quizIn
+        };
+    }}

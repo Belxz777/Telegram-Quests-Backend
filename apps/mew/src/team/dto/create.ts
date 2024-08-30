@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger'
-import {Table,Column, DataType,Model, AllowNull} from 'sequelize-typescript'
+import { Column } from 'typeorm'
+
 
 export class CreateTeamDto {
-    @Column({type:DataType.STRING,allowNull:false})
+    @Column({nullable:false})
     name:string
 }

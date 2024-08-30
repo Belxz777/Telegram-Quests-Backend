@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { CreateQuestDto } from './dto/create-quest';
 import { QuestService } from './quest.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Quest } from './quests.model';
+import { Quest } from './quests.entity';
 import { Param } from '@nestjs/common';
 import { UpdateQuestDto } from './dto/create-quest';
 @Controller('Quests')
