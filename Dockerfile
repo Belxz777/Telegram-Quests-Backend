@@ -1,8 +1,19 @@
+# Используем официальный образ Node.js в качестве базы
 FROM node:20-alpine AS build
+
+# Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /usr/src/app    
+
+# Копируем package*.json в рабочую директорию
+COPY package*.json ./
+
+# Устанавливаем зависимости
 RUN npm install && npm ci
-COPY package*.json  ./
+
+# Копируем остальные файлы в контейнер
 COPY . .
+
+# Строим проект и удаляем ненужные зависимости
 RUN npm run build && npm prune --production
 
 # Production
