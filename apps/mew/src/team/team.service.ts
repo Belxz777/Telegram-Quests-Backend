@@ -10,6 +10,7 @@ export class TeamService {
       @InjectRepository(Team)
       private readonly teamRepository: Repository<Team>,
   ) {}
+// FIXME : исправить то что answers так странно добавляются изменить на лучший формат , а также добавить дату 
 
   async uploadImageUrls(name: string, file: Express.Multer.File, nameOfLocation: string, result: string, answers: string[]): Promise<Team> {
       const team = await this.teamRepository.findOne({ where: { name } });

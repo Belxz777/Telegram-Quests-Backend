@@ -39,9 +39,6 @@ export class Quest {
     @Column({ type: 'int', nullable: false })
     quizId: number
 
-    @ApiProperty({ example: 'История', description: 'Категория теста' })
-    @Column({ type: 'varchar', nullable: false })
-    categorie: string
 
     @Column({ type: 'varchar', default: '', nullable: true })
     image: string
