@@ -15,6 +15,7 @@ COPY . .
 
 # Строим проект и удаляем ненужные зависимости
 RUN npm run build && npm prune --production
+EXPOSE 3000/tcp
 
 # Production
 # FROM node:20-alpine AS production

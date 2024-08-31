@@ -19,8 +19,8 @@ export class TeamController {
     @Post()
     async createTeam(
       @Body('name') name: string,
-    ): Promise<Team> {
-      
+    ): Promise<Team | { teamAlreadyExists: boolean }> {
+      console.log(name)
       return this.TeamService.createTeam(name);
     }
   // @Post('/uploadPhotos/:id')
@@ -37,10 +37,11 @@ export class TeamController {
     @Param('name') name: string,
     @UploadedFile() file: Express.Multer.File,
     @Body('location') nameOfLocation: string,
-    @Body('result') result: string
+    @Body('result') result: string ,
+    @Body('answers') answers: string[]
   ): Promise<any> {
   console.log(name, file, nameOfLocation, result)
-      return this.TeamService.uploadImageUrls(name, file, nameOfLocation, result);
+      return this.TeamService.uploadImageUrls(name, file, nameOfLocation, result,answers);
 
   }
       @Post('/upload')
@@ -77,5 +78,9 @@ export class TeamController {
     @Get(':id')
     async getTeamById(@Param('id') id: number): Promise<Team> {
       return this.TeamService.getTeamById(id);
+    }
+    @Get('/name/:name')
+    async getTeamByName(@Param('name') name: string): Promise<Team> {
+      return this.TeamService.getTeamByName(name);
     }
 }
