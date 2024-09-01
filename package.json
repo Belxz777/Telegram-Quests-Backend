@@ -27,6 +27,7 @@
     "@nestjs/sequelize": "^10.0.0",
     "@nestjs/swagger": "^7.1.13",
     "@nestjs/typeorm": "^10.0.2",
+    "express": "^4.19.2",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.1.13",

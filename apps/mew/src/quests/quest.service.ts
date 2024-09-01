@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Not, Repository } from 'typeorm';
+import { Equal, In, Not, Repository } from 'typeorm';
 import { Quest } from './quests.entity';
 import { Team } from '../team/team.entity';
 import { CreateQuestDto, UpdateQuestDto } from './dto/create-quest';
@@ -72,7 +72,11 @@ export class QuestService {
             throw new Error('Team not found');
         }
 
-        const quests = await this.questRepository.find();
+            const quests = await this.questRepository.find({
+                where: {
+                    quizIn: Not(Equal("Смешарики"))
+                }
+            });
         const final = [...new Set(quests.map(quest => quest.quizIn))];
         const uniqueValues = final.filter(value => !thisTeam.solved.includes(value));
 
@@ -91,6 +95,19 @@ export class QuestService {
                 });
             }
         });
+
+        if (locations.length === 0) {
+            const particularQuest = await this.questRepository.findOne({ where: { quizIn: 'Смешарики' } });
+            if (particularQuest) {
+                locations.push({
+                    lat: Number(particularQuest.lat),
+                    lon: Number(particularQuest.lon),
+                    name: particularQuest.quizIn,
+                    id: Number(particularQuest.quizId)
+                });
+            }
+        }
+
         return locations;
     }    
     async getAllQuestsbyQuizIn(quizIn: string): Promise<Quest[]> {

@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Team } from './team.entity';
 import { s3 } from './team.controller';
+import { response } from 'express';
+import {  NotFoundException } from '../exeptions/404';
 
 @Injectable()
 export class TeamService {
@@ -79,14 +81,22 @@ async createTeam(name: string): Promise<Team | { teamAlreadyExists: boolean }> {
   }
 
   async getAllTeams(): Promise<Team[]> {
-      return this.teamRepository.find();
+    let teams = await this.teamRepository.find();
+    if (teams.length === 0) {
+      throw new NotFoundException();
+    }
+      return teams;
   }
 
   async getTeamById(id: number): Promise<Team> {
       return this.teamRepository.findOne({ where: { id } });
   }
-  async getTeamByName(name: string): Promise<Team> {
+  async getTeamByName(name: string): Promise<Team | null> {
     let team = await this.teamRepository.findOne({ where: { name } });
+    if(!team){
+      throw new NotFoundException();
+
+    }
     if (team) {
       const uniqueSolved = [...new Set(team.solved)];
       const filteredTeam = {
