@@ -40,7 +40,7 @@ export class Quest {
     quizId: number
 
     @ApiProperty({ example: 'История', description: 'Категория теста' })
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar', nullable: true })
     categorie: string
 
     @Column({ type: 'varchar', default: '', nullable: true })
@@ -49,6 +49,6 @@ export class Quest {
     @Column({ type: 'boolean', nullable: true })
     rebus: boolean
 
-    @Column({ type: 'boolean', default: false })
+    @Column({ type: 'boolean', default: true })
     todo: boolean
 }

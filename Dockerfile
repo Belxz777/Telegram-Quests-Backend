@@ -11,6 +11,5 @@ WORKDIR /usr/src/app
 
 COPY  --from=build usr/src/app/dist ./dist
 COPY  --from=build usr/src/app/node_modules ./node_modules
-RUN npm install --only=production 
 EXPOSE 3000/tcp
 CMD [ "node", "dist/main.js" ]
