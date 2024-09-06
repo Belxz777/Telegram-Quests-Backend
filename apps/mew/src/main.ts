@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 declare const module: any;
 // точка входа в приложение
 async function bootstrap() {
-  const port  = process.env.PORT || 5000 //берем из .env файла
+  const port  = process.env.PORT || 5000 
   const app = await NestFactory.create(AppModule,{cors:true});
   // теперь для документации нашего rest api мы берем  и прописываем сетап свагера
   const config  =  new DocumentBuilder()

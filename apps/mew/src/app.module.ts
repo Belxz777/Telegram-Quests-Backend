@@ -18,7 +18,7 @@ envFilePath: `.env`
 ),
 TypeOrmModule.forRoot({
 type: 'postgres',
-url: process.env.URL || 'postgresql://roman:4HOZNHZ08n8xdYDXmJSDs0MUk7LDW5NB@dpg-cr83k2tsvqrc73do60gg-a.frankfurt-postgres.render.com/quedb',
+url: process.env.URL ,
 entities: [Quest,Team],
 autoLoadEntities: true,
 ssl: {

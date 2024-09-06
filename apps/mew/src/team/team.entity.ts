@@ -18,4 +18,7 @@ export class Team {
 
     @Column('simple-array', { nullable: true, default: ""})
     imageDataUrl: string[];
+
+    @Column('simple-array', { nullable: true, default: ""})
+  answers: string[];
 }
