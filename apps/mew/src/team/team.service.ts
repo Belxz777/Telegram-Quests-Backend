@@ -81,4 +81,7 @@ export class TeamService {
   async getTeamById(id: number): Promise<Team> {
       return this.teamRepository.findOne({ where: { id } });
   }
+  async getTeamByName(name:string): Promise<Team> {
+    return this.teamRepository.findOne({ where: { name } });
+}
 }

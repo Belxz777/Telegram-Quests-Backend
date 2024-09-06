@@ -78,4 +78,8 @@ export class TeamController {
     async getTeamById(@Param('id') id: number): Promise<Team> {
       return this.TeamService.getTeamById(id);
     }
+    @Get('getByName/:name')
+    async getTeamByName(@Param('name') name:string): Promise<Team> {
+      return this.TeamService.getTeamByName(name);
+    }
 }

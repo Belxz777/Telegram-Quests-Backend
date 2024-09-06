@@ -10,12 +10,12 @@ export class Team {
     @Column({ type: 'varchar', nullable: false })
     name: string;
 
-    @Column('simple-array', { nullable: true, default: [] })
+    @Column('simple-array', { nullable: true, default: "" })
     solved: string[];
 
-    @Column('simple-array', { nullable: true, default: [] })
+    @Column('simple-array', { nullable: true, default: ""})
     results: string[];
 
-    @Column('simple-array', { nullable: true, default: [] })
+    @Column('simple-array', { nullable: true, default: ""})
     imageDataUrl: string[];
 }
