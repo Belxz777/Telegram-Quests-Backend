@@ -11,11 +11,11 @@ export class CreateQuestDto {
 
 
     @Column({ type: 'varchar', nullable: false })
-    answer: string
+    answer?: string 
 
 
     @Column('simple-array', { nullable: true })
-    variants: string[]
+    variants: any[]
 
 
 

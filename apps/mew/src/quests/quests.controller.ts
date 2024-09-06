@@ -5,6 +5,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { Quest } from './quests.entity';
 import { Param } from '@nestjs/common';
 import { UpdateQuestDto } from './dto/create-quest';
+import { Deleted } from '../team/team.interface';
 @Controller('Quests')
 export class QuestsController {
     constructor(private QuestService:QuestService){
@@ -12,11 +13,7 @@ export class QuestsController {
     }
     @ApiResponse({status:200 | 404,type:[Quest]})
 @Post()
-    create(@Body() QuestDto:CreateQuestDto){
-        const isRebus= QuestDto.rebus   
-        if(isRebus){
-            return this.QuestService.createNewQuest(QuestDto)
-        }
+    create(@Body() QuestDto:CreateQuestDto){  
 return this.QuestService.createNewQuest(QuestDto)
     }
     @ApiResponse({status:200 | 404,type:[Quest]})
@@ -38,14 +35,13 @@ getAllQuestsbyQuizIn(@Param('quizName') quizName:string){
 }
 @Get('byId/:quizId')
 getAllQuestsbyQuizId(@Param('quizId') quizId:number){
-    console.log(quizId)
     return this.QuestService.getAllQuestsbyQuizId(quizId)
 }
 @Delete(':id')
-   deleteQuest(@Param('id') id: number):Promise<void | number> {
+   deleteQuest(@Param('id') id: number):Promise<Deleted> {
     return this.QuestService.deleteQuest(id);
   }
-  @Patch(':id')
+  @Patch(':id') 
   async updateQuest(@Param('id') id:number,
     @Body()   updateQuestData:UpdateQuestDto ){
         const updatedQuest = await this.QuestService.updateQuest(updateQuestData,id);

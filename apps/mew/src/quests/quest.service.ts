@@ -4,6 +4,7 @@ import { In, Not, Repository } from 'typeorm';
 import { Quest } from './quests.entity';
 import { Team } from '../team/team.entity';
 import { CreateQuestDto, UpdateQuestDto } from './dto/create-quest';
+import { Deleted } from '../team/team.interface';
 
 interface QuestsProposed {
     lat: number;
@@ -27,8 +28,18 @@ export class QuestService {
     async getAllQuests(): Promise<Quest[] | Quest> {
         return this.questRepository.find();
     }
-    async deleteQuest(id: number): Promise<void> {
-        await this.questRepository.delete(id);
+    async deleteQuest(id: number): Promise< Deleted> {
+       const isOkay =  await this.questRepository.delete(id);
+       if(!isOkay){
+        return {
+            isDeleted:false,
+            deletedId:id
+           }
+       }
+       return {
+        isDeleted:true,
+        deletedId:id
+       }
     }
     async updateQuest(dto: UpdateQuestDto, id: number): Promise<Quest> {
         const quest = await this.questRepository.findOne({ where: { id } });
@@ -47,12 +58,27 @@ export class QuestService {
         if (!thisTeam) {
             throw new Error('Team not found');
         }
-        const quests = await this.questRepository.find();
-        const final = [...new Set(quests.map(quest => quest.quizIn))];
-        const uniqueValues = final.filter(value => !thisTeam.solved.includes(value));
-        const questsToReturn = await this.questRepository.find({
-            where: { quizIn: In(uniqueValues) },
-        });
+            const quests = await this.questRepository.find();
+            const final = [...new Set(quests.map(quest => quest.quizIn))];
+            const uniqueValues = final.filter(value => !thisTeam.solved.includes(value));
+        
+            let questsToReturn;
+            if (uniqueValues.length === 1) {
+                const lastQuizId = 2;
+                const allQuestsCompleted = final.every(quizId => quizId === lastQuizId.toString() || thisTeam.solved.includes(quizId));
+            
+                if (allQuestsCompleted) {
+                    questsToReturn = await this.questRepository.find({
+                        where: { quizId: lastQuizId },
+                    });
+                } else {
+                    questsToReturn = [];
+                }
+            } else {
+                questsToReturn = await this.questRepository.find({
+                    where: { quizIn: In(uniqueValues) },
+                });
+            }
         const locations: QuestsProposed[] = [];
         questsToReturn.forEach(item => {
             if (!locations.some(location => location.name === item.quizIn)) {
@@ -65,8 +91,7 @@ export class QuestService {
             }
         });
         return locations;
-    }    
-    async getAllQuestsbyQuizIn(quizIn: string): Promise<Quest[]> {
+    }    async getAllQuestsbyQuizIn(quizIn: string): Promise<Quest[]> {
         return this.questRepository.find({ where: { quizIn } });
     }
     async getAllQuestsbyQuizId(quizId: number): Promise<{

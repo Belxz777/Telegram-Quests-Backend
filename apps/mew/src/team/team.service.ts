@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Team } from './team.entity';
 import { s3 } from './team.controller';
+import { Deleted } from './team.interface';
 
 @Injectable()
 export class TeamService {
@@ -43,10 +44,10 @@ export class TeamService {
       } else if (uploadedData.Location) {
           team.imageDataUrl.push(uploadedData.Location);
       }
-      const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
+      console.log(answers)
+  Array.isArray(answers) ? answers.map(answer =>     team.answers.push(answer) ) :      team.answers.push(answers);
       team.solved.push(nameOfLocation);
       team.results.push(result);
-      team.answers.push(formattedAnswers);
       await this.teamRepository.save(team);
       return team;
   }
@@ -67,7 +68,17 @@ export class TeamService {
   async getTeamByName(name:string): Promise<Team> {
     return this.teamRepository.findOne({ where: { name } });
 }
-async deleteTeam(id: number): Promise<void> {
-    await this.teamRepository.delete(id);
+async deleteTeam(id: number): Promise< Deleted> {
+    const operation = await this.teamRepository.delete(id);
+if(!operation){
+    return {
+        isDeleted:false,
+        deletedId:id
+    }
+}
+    return {
+        isDeleted:true,
+        deletedId:id
+    }
 }
 }

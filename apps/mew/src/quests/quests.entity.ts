@@ -8,11 +8,11 @@ export class Quest {
     @Column({ nullable: true })
     question: string
 
-    @Column({ default: '',nullable:true })
-    answer: string
+    @Column({ default: 'varchar',nullable:true })
+    answer: string 
 
-    @Column('simple-array', { nullable: true, default: ' ' })
-    variants: string[]
+    @Column('simple-array', { nullable: true, default: null })
+    variants: any[]
 /*
 {
 !question:"Вопрос",
