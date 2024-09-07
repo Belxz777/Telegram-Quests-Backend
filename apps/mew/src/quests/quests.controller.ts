@@ -14,7 +14,6 @@ export class QuestsController {
     @ApiResponse({status:200,type:[Quest]})
 @Post()
     create(@Body() QuestDto:CreateQuestDto){
-        const isTodo= QuestDto.todo
         const isRebus= QuestDto.rebus
         
         if(isRebus){

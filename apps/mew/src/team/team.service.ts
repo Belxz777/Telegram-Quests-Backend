@@ -58,8 +58,9 @@ export class TeamService {
 
       team.solved.push(nameOfLocation);
       team.results.push(result);
-      team.answers.push(answers.toString());
-      console.log(`добавлено ${team}`);
+      // Форматирование массива answers в красивую строку
+  const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
+  team.answers.push(formattedAnswers);
 
       await this.teamRepository.save(team);
       return team;
