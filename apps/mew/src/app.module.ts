@@ -18,10 +18,12 @@ envFilePath: `.env`
 ),
 TypeOrmModule.forRoot({
 type: 'postgres',
-url:process.env.URL,
+url: process.env.URL ,
 entities: [Quest,Team],
 autoLoadEntities: true,
-ssl:true,
+ssl: {
+    rejectUnauthorized: false, // Adjust based on your SSL needs
+  },
 synchronize: true,
 logging: true,
 }),

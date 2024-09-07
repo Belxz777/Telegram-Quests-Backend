@@ -6,8 +6,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import EasyYandexS3 from 'easy-yandex-s3';
 export const  s3 = new EasyYandexS3({
   auth: {
-    accessKeyId: 'YCAJEmmhVKiQFxqCY0IXE02lH',
-    secretAccessKey: 'YCMo3gC5oNmnCCC4Aby6G624qNdGD_9EPCYYiKgb',
+    accessKeyId: process.env.YANDEX_ACCESS_KEY ,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
   },
   Bucket: 'questsimages', // Название бакета
   debug: true, // Дебаг в консоли
@@ -15,7 +15,6 @@ export const  s3 = new EasyYandexS3({
 @Controller('team')  
 export class TeamController {
     constructor(private readonly TeamService: TeamService) {}
-
     @Post()
     async createTeam(
       @Body('name') name: string,
@@ -23,14 +22,6 @@ export class TeamController {
       console.log(name)
       return this.TeamService.createTeam(name);
     }
-  // @Post('/uploadPhotos/:id')
-  // @UseInterceptors(FileInterceptor('photo'))
-  // async uploadImages(
-  //     @Param('id') id: number,
-  //     @UploadedFile() file
-  //   ): Promise<void> {
-  //     return this.TeamService.uploadImages(id, file);
-  //   }
   @Post('/uploadPhotoUrls/:name')
   @UseInterceptors(FileInterceptor('file'))
    uploadImageUrls(
@@ -38,33 +29,21 @@ export class TeamController {
     @UploadedFile() file: Express.Multer.File,
     @Body('location') nameOfLocation: string,
     @Body('result') result: string ,
+    @Body ('answers') answers:string[] ,
     @Body('answers') answers: string[]
   ): Promise<any> {
   console.log(name, file, nameOfLocation, result)
       return this.TeamService.uploadImageUrls(name, file, nameOfLocation, result,answers);
 
   }
-      @Post('/upload')
-      @UseInterceptors(FileInterceptor('file'))
-      uploadFile(@UploadedFile() file: Express.Multer.File) {
-    //     let ip = this.s3.Upload(
-    //       {
-    //         buffer: file.buffer,
-    //       },
-    //       '/images/'
-    //     );
-    // ip.then((response) => {
-    //   if (Array.isArray(response)) {
-    //     response.forEach(data => {
-    //       if (data && typeof data === 'object' && 'Location' in data) {
-    //         console.log(data.Location);
-    //       }
-    //     });
-    //   } else if (response && typeof response === 'object' && 'Location' in response) {
-    //     console.log(response.Location);
-    //   }
-    // })
-      }
+    @Get(':id')
+    async getTeamById(@Param('id') id: number): Promise<Team> {
+      return this.TeamService.getTeamById(id);
+    }
+    @Get('getByName/:name')
+    async getTeamByName(@Param('name') name:string): Promise<Team> {
+      return this.TeamService.getTeamByName(name);
+    }
     @Delete(':id')  
     async deleteTeam(@Param('id') id: number): Promise<void> {
       return this.TeamService.deleteTeam(id);
@@ -82,5 +61,13 @@ export class TeamController {
     @Get('/name/:name')
     async getTeamByName(@Param('name') name: string): Promise<Team> {
       return this.TeamService.getTeamByName(name);
+    }
+    @Get('getByName/:name')
+    async getTeamByName(@Param('name') name:string): Promise<Team> {
+      return this.TeamService.getTeamByName(name);
+    }
+    @Delete(':id')  
+    async deleteTeam(@Param('id') id: number): Promise<void> {
+      return this.TeamService.deleteTeam(id);
     }
 }

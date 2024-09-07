@@ -26,13 +26,8 @@ export class TeamService {
           team.results = [];
           team.answers = [];
       }
-
-      if (!result) {
-          console.log("no results");
-      }
-
       if (team.solved.includes(nameOfLocation)) {
-          console.log("solved");
+          return
       }
 
       let isUploaded = await s3.Upload(
@@ -55,7 +50,7 @@ export class TeamService {
       } else if (isUploaded.Location) {
           team.imageDataUrl.push(isUploaded.Location);
       }
-
+      const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
       team.solved.push(nameOfLocation);
       team.results.push(result);
       // Форматирование массива answers в красивую строку
@@ -82,15 +77,19 @@ async createTeam(name: string): Promise<Team | { teamAlreadyExists: boolean }> {
   }
 
   async getAllTeams(): Promise<Team[]> {
-    let teams = await this.teamRepository.find();
-    if (teams.length === 0) {
-      throw new NotFoundException();
-    }
-      return teams;
+      return this.teamRepository.find();
   }
 
   async getTeamById(id: number): Promise<Team> {
       return this.teamRepository.findOne({ where: { id } });
+  }
+  async getTeamByName(name:string): Promise<Team> {
+    return this.teamRepository.findOne({ where: { name } });
+}
+async deleteTeam(id: number): Promise<void> {
+    await this.teamRepository.delete(id);
+}
+}
   }
   async getTeamByName(name: string): Promise<Team | null> {
     let team = await this.teamRepository.findOne({ where: { name } });

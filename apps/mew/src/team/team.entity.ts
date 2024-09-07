@@ -11,11 +11,13 @@ export class Team {
     name: string;
 
     @Column('simple-array', { nullable: true, default: "" })
+    @Column('simple-array', { nullable: true, default: "" })
     solved: string[];
 
     @Column('simple-array', { nullable: true, default: "" })
     results: string[];
 
+    @Column('simple-array', { nullable: true, default: ""})
     @Column('simple-array', { nullable: true, default: ""})
     imageDataUrl: string[];
 
