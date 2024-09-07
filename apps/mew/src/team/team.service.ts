@@ -50,7 +50,6 @@ export class TeamService {
       } else if (isUploaded.Location) {
           team.imageDataUrl.push(isUploaded.Location);
       }
-      const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
       team.solved.push(nameOfLocation);
       team.results.push(result);
       // Форматирование массива answers в красивую строку
@@ -72,10 +71,6 @@ async createTeam(name: string): Promise<Team | { teamAlreadyExists: boolean }> {
   const newTeam = this.teamRepository.create({ name });
   return this.teamRepository.save(newTeam);
 }
-  async deleteTeam(id: number): Promise<void> {
-      await this.teamRepository.delete(id);
-  }
-
   async getAllTeams(): Promise<Team[]> {
       return this.teamRepository.find();
   }
@@ -83,15 +78,10 @@ async createTeam(name: string): Promise<Team | { teamAlreadyExists: boolean }> {
   async getTeamById(id: number): Promise<Team> {
       return this.teamRepository.findOne({ where: { id } });
   }
-  async getTeamByName(name:string): Promise<Team> {
-    return this.teamRepository.findOne({ where: { name } });
-}
 async deleteTeam(id: number): Promise<void> {
     await this.teamRepository.delete(id);
 }
-}
-  }
-  async getTeamByName(name: string): Promise<Team | null> {
+async getTeamByName(name: string): Promise<Team | null> {
     let team = await this.teamRepository.findOne({ where: { name } });
     if(!team){
       throw new NotFoundException();

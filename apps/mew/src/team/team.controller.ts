@@ -30,7 +30,6 @@ export class TeamController {
     @Body('location') nameOfLocation: string,
     @Body('result') result: string ,
     @Body ('answers') answers:string[] ,
-    @Body('answers') answers: string[]
   ): Promise<any> {
   console.log(name, file, nameOfLocation, result)
       return this.TeamService.uploadImageUrls(name, file, nameOfLocation, result,answers);
@@ -54,20 +53,4 @@ export class TeamController {
       return this.TeamService.getAllTeams();
     }
   
-    @Get(':id')
-    async getTeamById(@Param('id') id: number): Promise<Team> {
-      return this.TeamService.getTeamById(id);
-    }
-    @Get('/name/:name')
-    async getTeamByName(@Param('name') name: string): Promise<Team> {
-      return this.TeamService.getTeamByName(name);
-    }
-    @Get('getByName/:name')
-    async getTeamByName(@Param('name') name:string): Promise<Team> {
-      return this.TeamService.getTeamByName(name);
-    }
-    @Delete(':id')  
-    async deleteTeam(@Param('id') id: number): Promise<void> {
-      return this.TeamService.deleteTeam(id);
-    }
 }
