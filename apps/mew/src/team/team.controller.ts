@@ -6,8 +6,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import EasyYandexS3 from 'easy-yandex-s3';
 export const  s3 = new EasyYandexS3({
   auth: {
-    accessKeyId: process.env.YANDEX_ACCESS_KEY ,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    accessKeyId: process.env.YANDEX_ACCESS_KEY  || " YCAJEmmhVKiQFxqCY0IXE02lH",
+    secretAccessKey: process.env.SECRET_ACCESS_KEY || "YCMo3gC5oNmnCCC4Aby6G624qNdGD_9EPCYYiKgb", 
   },
   Bucket: 'questsimages', // Название бакета
   debug: true, // Дебаг в консоли
@@ -29,7 +29,7 @@ export class TeamController {
     @UploadedFile() file: Express.Multer.File,
     @Body('location') nameOfLocation: string,
     @Body('result') result: string ,
-    @Body ('answers') answers:string[] ,
+    @Body ('answers') answers:string ,
   ): Promise<any> {
   console.log(name, file, nameOfLocation, result)
       return this.TeamService.uploadImageUrls(name, file, nameOfLocation, result,answers);

@@ -50,7 +50,7 @@ export class QuestService {
 
             const quests = await this.questRepository.find({
                 where: {
-                    quizIn: Not(Equal("Смешарики"))
+                    quizId: Not(Equal(7))
                 }
             });
         const final = [...new Set(quests.map(quest => quest.quizIn))];

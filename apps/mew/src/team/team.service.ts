@@ -14,7 +14,7 @@ export class TeamService {
   ) {}
 // FIXME : исправить то что answers так странно добавляются изменить на лучший формат , а также добавить дату 
 
-  async uploadImageUrls(name: string, file: Express.Multer.File, nameOfLocation: string, result: string, answers: string[]): Promise<Team> {
+  async uploadImageUrls(name: string, file: Express.Multer.File, nameOfLocation: string, result: string, answers: string): Promise<Team> {
       const team = await this.teamRepository.findOne({ where: { name } });
       if (!team) {
           throw new Error(`Team with name ${name} not found.`);
@@ -53,9 +53,10 @@ export class TeamService {
       team.solved.push(nameOfLocation);
       team.results.push(result);
       // Форматирование массива answers в красивую строку
-  const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
-  team.answers.push(formattedAnswers);
-
+  // const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
+  // team.answers.push(formattedAnswers);
+JSON.parse(answers)
+team.answers.push(answers);
       await this.teamRepository.save(team);
       return team;
   }

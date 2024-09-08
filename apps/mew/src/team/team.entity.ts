@@ -6,11 +6,10 @@ export class Team {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ApiProperty({ example: 'Супер', description: 'название комнаты' })
+
     @Column({ type: 'varchar', nullable: false })
     name: string;
 
-    @Column('simple-array', { nullable: true, default: "" })
     @Column('simple-array', { nullable: true, default: "" })
     solved: string[];
 
@@ -22,6 +21,6 @@ export class Team {
     imageDataUrl: string[];
 
     @Column('simple-array', { nullable: true, default: "" })
-    answers: string[];
+    answers: Array<string>;
 
 }
