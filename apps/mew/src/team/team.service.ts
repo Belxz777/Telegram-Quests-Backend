@@ -55,11 +55,13 @@ export class TeamService {
       // Форматирование массива answers в красивую строку
   // const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
   // team.answers.push(formattedAnswers);
-JSON.parse(answers)
-team.answers.push(answers);
+  const answersArray = answers.split(',')// Split the string into an array
+console.log(answersArray,answers)//[ 'книга', '1952', 'быстрота', 'водитеоь' ] книга,1952,быстрота,водитеоь
+team.answers.push(answersArray)
       await this.teamRepository.save(team);
       return team;
   }
+
 async createTeam(name: string): Promise<Team | { teamAlreadyExists: boolean }> {
   const existingTeam = await this.teamRepository.findOne({ where: { name } });
   if (existingTeam) {
@@ -84,30 +86,27 @@ async deleteTeam(id: number): Promise<void> {
 }
 async getTeamByName(name: string): Promise<Team | null> {
     let team = await this.teamRepository.findOne({ where: { name } });
-    if(!team){
+    if (!team) {
       throw new NotFoundException();
-
     }
-    if (team) {
-      const uniqueSolved = [...new Set(team.solved)];
-      const filteredTeam = {
-        ...team,
-        solved: uniqueSolved,
-        results: uniqueSolved.map(location => {
-          const lastIndex = team.solved.lastIndexOf(location);
-          return team.results[lastIndex] || '[]';
-        }),
-        imageDataUrl: uniqueSolved.map(location => {
-          const lastIndex = team.solved.lastIndexOf(location);
-          return team.imageDataUrl[lastIndex] || '[]';
-        }),
-        answers: uniqueSolved.map(location => {
-          const lastIndex = team.solved.lastIndexOf(location);
-          return team.answers[lastIndex] || '[]';
-        })
-      };
-      await this.teamRepository.save(filteredTeam);
-      return filteredTeam;
-    } 
-    return team;
-  }}
+    const uniqueSolved = [...new Set(team.solved)];
+    const filteredTeam: Team = {
+      ...team,
+      solved: uniqueSolved,
+      results: uniqueSolved.map(location => {
+        const lastIndex = team.solved.lastIndexOf(location);
+        return team.results[lastIndex] || '[]';
+      }),
+      imageDataUrl: uniqueSolved.map(location => {
+        const lastIndex = team.solved.lastIndexOf(location);
+        return team.imageDataUrl[lastIndex] || '[]';
+      }),
+      answers: uniqueSolved.map(location => {
+        const lastIndex = team.solved.lastIndexOf(location);
+        return team.answers[lastIndex] || [];
+      })
+    };
+    await this.teamRepository.save(filteredTeam);
+    return filteredTeam;
+  }
+}

@@ -1,4 +1,3 @@
-# Используем официальный образ Node.js в качестве базы
 FROM node:20-alpine AS build
 WORKDIR /usr/src/app
 COPY package*.json  ./
@@ -7,8 +6,8 @@ COPY .  .
 RUN npm run build 
 
 # Production
-# FROM node:20-alpine AS production
-# WORKDIR /usr/src/app
+FROM node:20-alpine AS production
+WORKDIR /usr/src/app
 
 COPY  --from=build usr/src/app/dist ./dist
 COPY  --from=build usr/src/app/node_modules ./node_modules
