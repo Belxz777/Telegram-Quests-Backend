@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, Table } from 'typeorm'
 
-@Entity()
+@Entity("quest-db")
 export class Quest {
     @PrimaryGeneratedColumn()
     id: number
@@ -30,16 +30,16 @@ export class Quest {
 *todo:"true тогда не надо ничего из этого просто question"
 }
  */
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar', nullable: true })
     lat: number
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar', nullable: true})
     lon: number
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar', nullable: true })
     quizIn: string
 
-    @Column({ type: 'int', nullable: false })
+    @Column({ type: 'int', nullable: true })
     quizId: number
 
     @Column({ type: 'varchar', default: '', nullable: true })
