@@ -5,3 +5,8 @@ export class NotFoundException extends HttpException {
     super('Не найдено', HttpStatus.NOT_FOUND);
   }
 }
+export class NotCreated  extends HttpException {
+  constructor() {
+    super('Существует дубликат, не создано', HttpStatus.CONFLICT);
+  }
+}

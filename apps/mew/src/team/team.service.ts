@@ -4,7 +4,8 @@ import { Repository } from 'typeorm';
 import { Team } from './team.entity';
 import { s3 } from './team.controller';
 import { response } from 'express';
-import {  NotFoundException } from '../exeptions/404';
+import {  NotCreated, NotFoundException } from '../exeptions/404';
+import { formatArrToString } from '../utils/transfer';
 
 @Injectable()
 export class TeamService {
@@ -54,21 +55,17 @@ export class TeamService {
       team.results.push(result);
       // Форматирование массива answers в красивую строку
   // const formattedAnswers = answers.map(answer => `• ${answer}`).join('\n');
-  // team.answers.push(formattedAnswers);
-  const answersArray = answers.split(',')// Split the string into an array
-console.log(answersArray,answers)//[ 'книга', '1952', 'быстрота', 'водитеоь' ] книга,1952,быстрота,водитеоь
-team.answers.push(answersArray)
+  // team.answers.push(formattedAnswers);//[ 'книга', '1952', 'быстрота', 'водитеоь' ] книга,1952,быстрота,водитеоь
+team.answers.push(formatArrToString(answers.split(',')))
       await this.teamRepository.save(team);
+      console.log(team.answers,isUploaded,team)
       return team;
   }
 
 async createTeam(name: string): Promise<Team | { teamAlreadyExists: boolean }> {
   const existingTeam = await this.teamRepository.findOne({ where: { name } });
   if (existingTeam) {
-      console.log(name, "err");
-      return {
-          teamAlreadyExists: true,
-      };
+    throw new  NotCreated()
   }
 
   const newTeam = this.teamRepository.create({ name });
@@ -103,10 +100,9 @@ async getTeamByName(name: string): Promise<Team | null> {
       }),
       answers: uniqueSolved.map(location => {
         const lastIndex = team.solved.lastIndexOf(location);
-        return team.answers[lastIndex] || [];
+        return team.answers[lastIndex] || '';
       })
     };
     await this.teamRepository.save(filteredTeam);
     return filteredTeam;
-  }
-}
+  }}

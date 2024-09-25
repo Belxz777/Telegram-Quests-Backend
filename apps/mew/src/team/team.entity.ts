@@ -21,6 +21,6 @@ export class Team {
     imageDataUrl: string[];
 
     @Column('simple-array', { nullable: true, default: "" })
-    answers: Array<string[]>;
+    answers: string[];
 
 }
