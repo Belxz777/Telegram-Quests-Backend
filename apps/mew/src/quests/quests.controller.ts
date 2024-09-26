@@ -13,7 +13,8 @@ export class QuestsController {
     @ApiResponse({status:200 | 404,type:[Quest]})
 @Post()
     create(@Body() QuestDto:CreateQuestDto){
-        const isRebus= QuestDto.rebus   
+        const isRebus= QuestDto.rebus
+        
         if(isRebus){
             return this.QuestService.createNewQuest(QuestDto)
         }
