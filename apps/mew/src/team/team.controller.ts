@@ -6,8 +6,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import EasyYandexS3 from 'easy-yandex-s3';
 export const  s3 = new EasyYandexS3({
   auth: {
-    accessKeyId: process.env.YANDEX_ACCESS_KEY  || "YCAJEmmhVKiQFxqCY0IXE02lH",
-    secretAccessKey: process.env.SECRET_ACCESS_KEY || "YCMo3gC5oNmnCCC4Aby6G624qNdGD_9EPCYYiKgb", 
+    accessKeyId: process.env.YANDEX_ACCESS_KEY ,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
   },
   Bucket: 'questsimages', // Название бакета
   debug: true, // Дебаг в консоли
@@ -18,8 +18,7 @@ export class TeamController {
     @Post()
     async createTeam(
       @Body('name') name: string,
-    ): Promise<Team | { teamAlreadyExists: boolean }> {
-      console.log(name)
+    ): Promise<Team> {
       return this.TeamService.createTeam(name);
     }
   @Post('/uploadPhotoUrls/:name')
@@ -29,11 +28,14 @@ export class TeamController {
     @UploadedFile() file: Express.Multer.File,
     @Body('location') nameOfLocation: string,
     @Body('result') result: string ,
-    @Body ('answers') answers:string ,
+    @Body ('answers') answers:string[]
   ): Promise<any> {
   console.log(name, file, nameOfLocation, result)
       return this.TeamService.uploadImageUrls(name, file, nameOfLocation, result,answers);
-
+  }
+  @Get()
+  async getAllTeams(): Promise<Team[]> {
+    return this.TeamService.getAllTeams();
   }
     @Get(':id')
     async getTeamById(@Param('id') id: number): Promise<Team> {
@@ -47,10 +49,4 @@ export class TeamController {
     async deleteTeam(@Param('id') id: number): Promise<void> {
       return this.TeamService.deleteTeam(id);
     }
-  
-    @Get()
-    async getAllTeams(): Promise<Team[]> {
-      return this.TeamService.getAllTeams();
-    }
-  
 }
