@@ -10,3 +10,13 @@ export class NotCreated  extends HttpException {
     super('Существует дубликат, не создано', HttpStatus.CONFLICT);
   }
 }
+export class WrongFormat extends HttpException {
+  constructor() {
+    super('Неверный формат', HttpStatus.BAD_REQUEST);
+  }
+}
+export class ExtendedApisError extends HttpException {
+  constructor() {
+  super('Проблема с API яндекса', HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
