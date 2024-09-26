@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Team } from './team.entity';
 import { s3 } from './team.controller';
 import { response } from 'express';
-import {  NotCreated, NotFoundException } from '../exeptions/404';
+import {  ExtendedApisError, NotCreated, NotFoundException, WrongFormat } from '../exeptions/404';
 import { formatArrToString } from '../utils/transfer';
 
 @Injectable()
@@ -30,7 +30,9 @@ export class TeamService {
       if (team.solved.includes(nameOfLocation)) {
           return
       }
-
+if(!file.buffer){
+throw new WrongFormat()
+}
       let isUploaded = await s3.Upload(
           {
               buffer: file.buffer,
@@ -40,7 +42,7 @@ export class TeamService {
 
       if (!isUploaded) {
           console.log("UPLOAD YANDEX  ERROR");
-          return team;
+          throw new ExtendedApisError()
       }
 
       if (Array.isArray(isUploaded)) {

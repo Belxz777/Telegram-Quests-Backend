@@ -18,7 +18,7 @@ export class TeamController {
     @Post()
     async createTeam(
       @Body('name') name: string,
-    ): Promise<Team> {
+    ): Promise<Team | { teamAlreadyExists: boolean }> {
       return this.TeamService.createTeam(name);
     }
   @Post('/uploadPhotoUrls/:name')
@@ -28,7 +28,7 @@ export class TeamController {
     @UploadedFile() file: Express.Multer.File,
     @Body('location') nameOfLocation: string,
     @Body('result') result: string ,
-    @Body ('answers') answers:string[]
+    @Body ('answers') answers:string
   ): Promise<any> {
   console.log(name, file, nameOfLocation, result)
       return this.TeamService.uploadImageUrls(name, file, nameOfLocation, result,answers);

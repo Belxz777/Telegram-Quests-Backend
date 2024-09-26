@@ -17,7 +17,6 @@ export class Team {
     results: string[];
 
     @Column('simple-array', { nullable: true, default: ""})
-    @Column('simple-array', { nullable: true, default: ""})
     imageDataUrl: string[];
 
     @Column('simple-array', { nullable: true, default: "" })
